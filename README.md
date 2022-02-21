@@ -25,8 +25,8 @@ func launchAudioExporter()
 	audioMovieExporter.configuration = exporterConfiguration
 	
 	// Replace with your audio url
-	if let audioURL = Bundle.main.url(forResource: "sample", 
-									  withExtension: ".m4a") 
+	if let audioURL = Bundle.main.url(forResource: "sample",
+					  withExtension: ".m4a") 
 	{ 
 		// Start showing your loading UI
 		DispatchQueue.global(qos: .background).async 
@@ -39,7 +39,7 @@ func launchAudioExporter()
 extension YourClass: AudioMovieExporterDelegate 
 { 
 	func audioMovieExporter(_ audioMovieExporter: AudioMovieExporter, 
-							didExportMovieTo location: URL) 
+	                        didExportMovieTo location: URL) 
 	{ 
 		DispatchQueue.main.async 
 		{ 
