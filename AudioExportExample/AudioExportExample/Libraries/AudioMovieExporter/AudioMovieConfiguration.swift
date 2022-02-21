@@ -61,6 +61,6 @@ struct AudioMovieConfiguration
     
     var fps: Int32 = 25
     var orientation = ExportOrientation.landscape
-    var color: CGColor?
+    var backgroundColor: CGColor?
     var exportFormat = ExportFormat.mov
 }

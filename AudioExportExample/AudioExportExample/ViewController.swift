@@ -11,19 +11,37 @@ import AVKit
 
 class ViewController: UIViewController
 {
+    private var exportTypeSegmentControl: UISegmentedControl!
+    private var videoOrientationSegmentControl: UISegmentedControl!
+    private var videoBGColorSegmentControl: UISegmentedControl!
     private let exportAudioButton = UIButton(type: .system)
-    private let exportAudioEnhancedButton = UIButton(type: .system)
+    private let colors: [UIColor] = [.red, .blue, .purple]
+    private var segmentLabelColorQueue: [UIColor] = [.red, .blue, .purple]
+    private var isLayoutConfigured = false
+    
     var audioMovieExporter = AudioMovieExporter()
+    var exporterConfiguration = AudioMovieConfiguration()
     
     private var moviePath: URL?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        title = "Audio movie export"
-        layoutButtons()
+        layoutInterface()
         audioMovieExporter.delegate = self
+    }
+    
+    override func viewDidLayoutSubviews()
+    {
+        super.viewDidLayoutSubviews()
+        
+        if !isLayoutConfigured
+        {
+            updateSegmentTextColor(videoBGColorSegmentControl)
+            videoBGColorSegmentControl.selectedSegmentIndex = 0
+            isLayoutConfigured = true
+            
+        }
     }
     
     override func viewDidAppear(_ animated: Bool)
@@ -48,35 +66,16 @@ class ViewController: UIViewController
         }
     }
     
-    private func presentColorOptions()
+    private func reset()
     {
-        let ac = UIAlertController(title: "Choose video background color", message: nil, preferredStyle: .alert)
+        exporterConfiguration.backgroundColor = nil
+        exporterConfiguration.orientation = .landscape
         
-        let redAction = UIAlertAction(title: "Red",
-                                      style: .default)
-        { [weak self] _ in
-            
-        }
+        videoOrientationSegmentControl.isHidden = true
+        videoOrientationSegmentControl.selectedSegmentIndex = 0
         
-        let blueAction = UIAlertAction(title: "Blue",
-                                      style: .default)
-        { [weak self] _ in
-            
-        }
-        
-        let yellowAction = UIAlertAction(title: "Yellow",
-                                      style: .default)
-        { [weak self] _ in
-            
-        }
-        
-        ac.addAction(redAction)
-        ac.addAction(blueAction)
-        ac.addAction(yellowAction)
-        
-        self.present(ac,
-                     animated: true,
-                     completion: nil)
+        videoBGColorSegmentControl.isHidden = true
+        videoBGColorSegmentControl.selectedSegmentIndex = 0
     }
     
     private func presentSaveOptions()
@@ -112,6 +111,8 @@ class ViewController: UIViewController
         if let audioURL = Bundle.main.url(forResource: "sample",
                                           withExtension: ".m4a")
         {
+            audioMovieExporter.configuration = exporterConfiguration
+            
             let euxLoader = EUXLoader(withTitle: "Render in progress")
             present(euxLoader.loaderController, animated: true)
             {
@@ -126,9 +127,35 @@ class ViewController: UIViewController
     }
     
     @objc
-    private func didTapEnhancedExportButton()
+    private func didUpdateVideoType(_ segmentControl: UISegmentedControl)
     {
-        presentColorOptions()
+        if segmentControl.selectedSegmentIndex == 1
+        {
+            videoOrientationSegmentControl.isHidden = false
+            videoBGColorSegmentControl.isHidden = false
+            return
+        }
+        
+        reset()
+    }
+    
+    @objc
+    private func didUpdateVideoOrientation(_ segmentControl: UISegmentedControl)
+    {
+        if segmentControl.selectedSegmentIndex == 0
+        {
+            exporterConfiguration.orientation = .landscape
+            return
+        }
+        
+        exporterConfiguration.orientation = .portrait
+    }
+    
+    @objc
+    private func didUpdateVideoBGColor(_ segmentControl: UISegmentedControl)
+    {
+        exporterConfiguration.backgroundColor
+            = colors[segmentControl.selectedSegmentIndex].cgColor
     }
 }
 
@@ -152,16 +179,22 @@ extension ViewController: AudioMovieExporterDelegate
 // MARK: INTERFACE & AUTOLAYOUT
 extension ViewController
 {
-    private func layoutButtons()
+    private func layoutInterface()
     {
+        view.backgroundColor = .white
+        title = "Audio movie export"
+        
+        layoutExportTypeSegment()
+        layoutVideoOrientationSegment()
+        layoutVideoBGColorSegment()
+        layoutVideoBGColorSegment()
         layoutExportButton()
-        layoutExportEnhancedButton()
     }
     
     private func layoutExportButton()
     {
         exportAudioButton.translatesAutoresizingMaskIntoConstraints = false
-        exportAudioButton.setTitle("Export Audio with No (Black) BG Movie", for: .normal)
+        exportAudioButton.setTitle("Export Audio as Movie", for: .normal)
         exportAudioButton.setTitleColor(.systemBlue, for: .normal)
         exportAudioButton.addTarget(self,
                                     action: #selector(didTapExportButton),
@@ -184,30 +217,101 @@ extension ViewController
             .constraint(equalToConstant: 50).isActive = true
     }
     
-    private func layoutExportEnhancedButton()
+    private func layoutExportTypeSegment()
     {
-        exportAudioEnhancedButton.translatesAutoresizingMaskIntoConstraints = false
-        exportAudioEnhancedButton.setTitle("Export Audio as Movie with BG Color", for: .normal)
-        exportAudioEnhancedButton.setTitleColor(.systemBlue, for: .normal)
-        exportAudioEnhancedButton.addTarget(self,
-                                            action: #selector(didTapEnhancedExportButton),
-                                            for: .touchUpInside)
-        view.addSubview(exportAudioEnhancedButton)
+        exportTypeSegmentControl = UISegmentedControl(items: ["Standard Video", "Enhanced Video"])
+        exportTypeSegmentControl.translatesAutoresizingMaskIntoConstraints = false
+        exportTypeSegmentControl.selectedSegmentIndex = 0
+        exportTypeSegmentControl.addTarget(self,
+                                           action: #selector(didUpdateVideoType(_:)),
+                                           for: .valueChanged)
         
-        exportAudioEnhancedButton.leadingAnchor
+        view.addSubview(exportTypeSegmentControl)
+        
+        exportTypeSegmentControl.leadingAnchor
             .constraint(equalTo: view.leadingAnchor,
                         constant: 20).isActive = true
         
-        exportAudioEnhancedButton.bottomAnchor
-            .constraint(equalTo: exportAudioButton.topAnchor,
-                        constant: -20).isActive = true
+        exportTypeSegmentControl.topAnchor
+            .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                        constant: 20).isActive = true
         
-        exportAudioEnhancedButton.trailingAnchor
+        exportTypeSegmentControl.trailingAnchor
             .constraint(equalTo: view.trailingAnchor,
                         constant: -20).isActive = true
         
-        exportAudioEnhancedButton.heightAnchor
+        exportTypeSegmentControl.heightAnchor
             .constraint(equalToConstant: 50).isActive = true
+    }
+    
+    private func layoutVideoOrientationSegment()
+    {
+        videoOrientationSegmentControl = UISegmentedControl(items: ["Landscape", "Portrait"])
+        videoOrientationSegmentControl.translatesAutoresizingMaskIntoConstraints = false
+        videoOrientationSegmentControl.selectedSegmentIndex = 0
+        videoOrientationSegmentControl.isHidden = true
+        videoOrientationSegmentControl.addTarget(self,
+                                           action: #selector(didUpdateVideoOrientation(_:)),
+                                           for: .valueChanged)
+        
+        view.addSubview(videoOrientationSegmentControl)
+        
+        videoOrientationSegmentControl.leadingAnchor
+            .constraint(equalTo: view.leadingAnchor,
+                        constant: 20).isActive = true
+        
+        videoOrientationSegmentControl.topAnchor
+            .constraint(equalTo: exportTypeSegmentControl.bottomAnchor,
+                        constant: 20).isActive = true
+        
+        videoOrientationSegmentControl.trailingAnchor
+            .constraint(equalTo: view.trailingAnchor,
+                        constant: -20).isActive = true
+        
+        videoOrientationSegmentControl.heightAnchor
+            .constraint(equalToConstant: 50).isActive = true
+    }
+    
+    private func layoutVideoBGColorSegment()
+    {
+        videoBGColorSegmentControl = UISegmentedControl(items: ["Red", "Blue", "Purple"])
+        videoBGColorSegmentControl.translatesAutoresizingMaskIntoConstraints = false
+        videoBGColorSegmentControl.isHidden = true
+        videoBGColorSegmentControl.addTarget(self,
+                                           action: #selector(didUpdateVideoBGColor(_:)),
+                                           for: .valueChanged)
+        
+        view.addSubview(videoBGColorSegmentControl)
+        
+        videoBGColorSegmentControl.leadingAnchor
+            .constraint(equalTo: view.leadingAnchor,
+                        constant: 20).isActive = true
+        
+        videoBGColorSegmentControl.topAnchor
+            .constraint(equalTo: videoOrientationSegmentControl.bottomAnchor,
+                        constant: 20).isActive = true
+        
+        videoBGColorSegmentControl.trailingAnchor
+            .constraint(equalTo: view.trailingAnchor,
+                        constant: -20).isActive = true
+        
+        videoBGColorSegmentControl.heightAnchor
+            .constraint(equalToConstant: 50).isActive = true
+    }
+    
+    private func updateSegmentTextColor(_ rootView: UIView)
+    {
+        for subview in rootView.subviews
+        {
+            if let label = subview as? UILabel,
+               !segmentLabelColorQueue.isEmpty
+            {
+                let color = segmentLabelColorQueue.removeFirst()
+                label.textColor = color
+            }
+            
+            updateSegmentTextColor(subview)
+        }
     }
 }
 

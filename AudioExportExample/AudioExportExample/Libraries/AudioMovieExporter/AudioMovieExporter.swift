@@ -183,7 +183,7 @@ struct AudioMovieExporter
     
     private func generateCABackgroundLayerTool() -> AVVideoCompositionCoreAnimationTool?
     {
-        if let backgroundColor = configuration.color
+        if let backgroundColor = configuration.backgroundColor
         {
             // No problem if the video layer cannot be seen
             let videoLayer = CALayer()
