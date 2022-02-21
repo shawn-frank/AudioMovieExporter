@@ -30,7 +30,8 @@ struct AudioMovieExporter
             return
         }
         
-        let videoComposition = createVideoComposition(with: videoCompositionTrack)
+        let videoComposition = createVideoComposition(with: videoCompositionTrack,
+                                                      for: CMTime())
         
         if let exporter = configureAVAssetExportSession(with: composition,
                                                         videoComposition: videoComposition)
@@ -61,6 +62,8 @@ struct AudioMovieExporter
     {
         let audioAsset: AVURLAsset = AVURLAsset(url: audioURL)
         
+        print(audioAsset.duration)
+        
         let trackTimeRange = CMTimeRange(start: .zero,
                                          duration: audioAsset.duration)
         
@@ -90,6 +93,10 @@ struct AudioMovieExporter
         catch {
             manageError(error, withMessage: "Error initializing video time range")
         }
+        
+        print(sourceAudioTrack.timeRange.duration)
+        print(audioTrack.timeRange.duration)
+        print(composition.duration)
         
         return audioTrack
     }
@@ -136,11 +143,14 @@ struct AudioMovieExporter
             manageError(error, withMessage: "Error initializing video time range")
         }
         
+        print(videoTrack.timeRange.duration)
+        
         return videoTrack
     }
     
     // Configure the video properties like resolution and fps
-    private func createVideoComposition(with videoCompositionTrack: AVMutableCompositionTrack) -> AVMutableVideoComposition
+    private func createVideoComposition(with videoCompositionTrack: AVMutableCompositionTrack,
+                                        for duration: CMTime) -> AVMutableVideoComposition
     {
         let videoComposition = AVMutableVideoComposition()
         
@@ -153,8 +163,10 @@ struct AudioMovieExporter
         
         // Specify the duration of the video composition
         let instruction = AVMutableVideoCompositionInstruction()
-        instruction.timeRange = CMTimeRange(start: .zero,
-                                            duration: videoCompositionTrack.timeRange.duration)
+        instruction.timeRange = CMTimeRange(start: .zero, duration: .indefinite)
+        
+        // Add background color if required
+        videoComposition.animationTool = generateCABackgroundLayerTool()
         
         // Add the video composition track to a new layer
         let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoCompositionTrack)
@@ -166,6 +178,27 @@ struct AudioMovieExporter
         videoComposition.instructions = [instruction]
         
         return videoComposition
+    }
+    
+    
+    private func generateCABackgroundLayerTool() -> AVVideoCompositionCoreAnimationTool?
+    {
+        if let backgroundColor = configuration.color
+        {
+            // No problem if the video layer cannot be seen
+            let videoLayer = CALayer()
+            videoLayer.frame = CGRect.zero
+            
+            let outputLayer = CALayer()
+            outputLayer.backgroundColor = backgroundColor
+            outputLayer.frame = CGRect(origin: .zero, size: configuration.resolution)
+            outputLayer.addSublayer(videoLayer)
+            
+            return AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: videoLayer,
+                                                       in: outputLayer)
+        }
+        
+        return nil
     }
     
     private func configureAVAssetExportSession(with composition: AVMutableComposition,
