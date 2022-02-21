@@ -21,13 +21,6 @@ struct AudioMovieConfiguration
         case mp4
     }
     
-    enum ExportQuality
-    {
-        case highest
-        case medium
-        case low
-    }
-    
     var resolution: CGSize
     {
         get
@@ -66,24 +59,8 @@ struct AudioMovieConfiguration
         }
     }
     
-    var avAssetExportPreset: String
-    {
-        switch exportQuality
-        {
-            case .highest:
-                return AVAssetExportPresetHighestQuality
-                
-            case .medium:
-                return AVAssetExportPresetMediumQuality
-                
-            default:
-                return AVAssetExportPresetLowQuality
-        }
-    }
-    
     var fps: Int32 = 25
     var orientation = ExportOrientation.landscape
     var color = CGColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     var exportFormat = ExportFormat.mov
-    var exportQuality = ExportQuality.low
 }

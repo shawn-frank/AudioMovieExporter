@@ -173,7 +173,7 @@ struct AudioMovieExporter
     {
         // Configure export session
         guard let exporter = AVAssetExportSession(asset: composition,
-                                                  presetName: configuration.avAssetExportPreset)
+                                                  presetName: AVAssetExportPresetHighestQuality)
         else
         {
             let exportQuality = String(describing: configuration.exportFormat)
