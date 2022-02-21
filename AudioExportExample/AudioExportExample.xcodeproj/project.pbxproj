@@ -12,6 +12,13 @@
 		2B633DB527C2A16200E1FB5F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DB427C2A16200E1FB5F /* ViewController.swift */; };
 		2B633DBA27C2A17800E1FB5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B633DB927C2A17800E1FB5F /* Assets.xcassets */; };
 		2B633DBD27C2A17800E1FB5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B633DBB27C2A17800E1FB5F /* LaunchScreen.storyboard */; };
+		2B633DC927C2A3D200E1FB5F /* blank_landscape.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2B633DC727C2A3D200E1FB5F /* blank_landscape.mp4 */; };
+		2B633DCA27C2A3D200E1FB5F /* blank_portrait.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2B633DC827C2A3D200E1FB5F /* blank_portrait.mp4 */; };
+		2B633DCD27C2A3EC00E1FB5F /* sample.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2B633DCC27C2A3EC00E1FB5F /* sample.m4a */; };
+		2B633DD227C2A7AE00E1FB5F /* AudioMovieExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DD127C2A7AE00E1FB5F /* AudioMovieExporter.swift */; };
+		2B633DD527C33BAE00E1FB5F /* AudioMovieConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DD427C33BAE00E1FB5F /* AudioMovieConfiguration.swift */; };
+		2B633DD927C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DD827C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift */; };
+		2B633DE127C3413400E1FB5F /* AudioMovieExporterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DE027C3413400E1FB5F /* AudioMovieExporterError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +29,13 @@
 		2B633DB927C2A17800E1FB5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B633DBC27C2A17800E1FB5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B633DBE27C2A17800E1FB5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B633DC727C2A3D200E1FB5F /* blank_landscape.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = blank_landscape.mp4; sourceTree = "<group>"; };
+		2B633DC827C2A3D200E1FB5F /* blank_portrait.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = blank_portrait.mp4; sourceTree = "<group>"; };
+		2B633DCC27C2A3EC00E1FB5F /* sample.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample.m4a; sourceTree = "<group>"; };
+		2B633DD127C2A7AE00E1FB5F /* AudioMovieExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMovieExporter.swift; sourceTree = "<group>"; };
+		2B633DD427C33BAE00E1FB5F /* AudioMovieConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMovieConfiguration.swift; sourceTree = "<group>"; };
+		2B633DD827C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMovieExporterDelegate.swift; sourceTree = "<group>"; };
+		2B633DE027C3413400E1FB5F /* AudioMovieExporterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMovieExporterError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +68,8 @@
 		2B633DAF27C2A16200E1FB5F /* AudioExportExample */ = {
 			isa = PBXGroup;
 			children = (
+				2B633DD027C2A79F00E1FB5F /* AudioMovieExporter */,
+				2B633DCC27C2A3EC00E1FB5F /* sample.m4a */,
 				2B633DB027C2A16200E1FB5F /* AppDelegate.swift */,
 				2B633DB227C2A16200E1FB5F /* SceneDelegate.swift */,
 				2B633DB427C2A16200E1FB5F /* ViewController.swift */,
@@ -62,6 +78,27 @@
 				2B633DBE27C2A17800E1FB5F /* Info.plist */,
 			);
 			path = AudioExportExample;
+			sourceTree = "<group>";
+		};
+		2B633DC627C2A3C200E1FB5F /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				2B633DC727C2A3D200E1FB5F /* blank_landscape.mp4 */,
+				2B633DC827C2A3D200E1FB5F /* blank_portrait.mp4 */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		2B633DD027C2A79F00E1FB5F /* AudioMovieExporter */ = {
+			isa = PBXGroup;
+			children = (
+				2B633DC627C2A3C200E1FB5F /* Media */,
+				2B633DD427C33BAE00E1FB5F /* AudioMovieConfiguration.swift */,
+				2B633DD827C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift */,
+				2B633DE027C3413400E1FB5F /* AudioMovieExporterError.swift */,
+				2B633DD127C2A7AE00E1FB5F /* AudioMovieExporter.swift */,
+			);
+			path = AudioMovieExporter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -122,7 +159,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B633DBD27C2A17800E1FB5F /* LaunchScreen.storyboard in Resources */,
+				2B633DCA27C2A3D200E1FB5F /* blank_portrait.mp4 in Resources */,
 				2B633DBA27C2A17800E1FB5F /* Assets.xcassets in Resources */,
+				2B633DC927C2A3D200E1FB5F /* blank_landscape.mp4 in Resources */,
+				2B633DCD27C2A3EC00E1FB5F /* sample.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +175,10 @@
 			files = (
 				2B633DB527C2A16200E1FB5F /* ViewController.swift in Sources */,
 				2B633DB127C2A16200E1FB5F /* AppDelegate.swift in Sources */,
+				2B633DE127C3413400E1FB5F /* AudioMovieExporterError.swift in Sources */,
+				2B633DD927C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift in Sources */,
+				2B633DD527C33BAE00E1FB5F /* AudioMovieConfiguration.swift in Sources */,
+				2B633DD227C2A7AE00E1FB5F /* AudioMovieExporter.swift in Sources */,
 				2B633DB327C2A16200E1FB5F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
