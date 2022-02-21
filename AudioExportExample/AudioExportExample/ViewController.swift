@@ -13,6 +13,7 @@ class ViewController: UIViewController
 {
     private let exportAudioButton = UIButton(type: .system)
     private let exportAudioEnhancedButton = UIButton(type: .system)
+    var audioMovieExporter = AudioMovieExporter()
     
     private var moviePath: URL?
     
@@ -22,6 +23,7 @@ class ViewController: UIViewController
         view.backgroundColor = .white
         title = "Audio movie export"
         layoutButtons()
+        audioMovieExporter.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool)
@@ -79,15 +81,15 @@ class ViewController: UIViewController
         if let audioURL = Bundle.main.url(forResource: "sample",
                                           withExtension: ".m4a")
         {
-            // start spinner
-            var audioMovieExporter = AudioMovieExporter()
-            audioMovieExporter.delegate = self
-            
-            // Generate the movie on a background thread to free up
-            // the UI in case of high quality exports
-            DispatchQueue.global(qos: .background).async
+            let euxLoader = EUXLoader(withTitle: "Render in progress")
+            present(euxLoader.loaderController, animated: true)
             {
-                audioMovieExporter.generateMovie(with: audioURL)
+                // Generate the movie on a background thread to free up
+                // the UI in case of high quality exports
+                DispatchQueue.global(qos: .background).async
+                { [weak self] in
+                    self?.audioMovieExporter.generateMovie(with: audioURL)
+                }
             }
         }
     }
@@ -106,13 +108,14 @@ extension ViewController: AudioMovieExporterDelegate
     {
         DispatchQueue.main.async
         {
-            // stop spinner
-            self.moviePath = location
-            self.presentSaveOptions()
+            self.dismiss(animated: true)
+            { [weak self] in
+                
+                self?.moviePath = location
+                self?.presentSaveOptions()
+            }
         }
     }
-    
-    
 }
 
 // MARK: INTERFACE & AUTOLAYOUT

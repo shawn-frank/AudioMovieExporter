@@ -19,6 +19,7 @@
 		2B633DD527C33BAE00E1FB5F /* AudioMovieConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DD427C33BAE00E1FB5F /* AudioMovieConfiguration.swift */; };
 		2B633DD927C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DD827C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift */; };
 		2B633DE127C3413400E1FB5F /* AudioMovieExporterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DE027C3413400E1FB5F /* AudioMovieExporterError.swift */; };
+		2B633DE627C3891C00E1FB5F /* EUXLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B633DE527C3891C00E1FB5F /* EUXLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		2B633DD427C33BAE00E1FB5F /* AudioMovieConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMovieConfiguration.swift; sourceTree = "<group>"; };
 		2B633DD827C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMovieExporterDelegate.swift; sourceTree = "<group>"; };
 		2B633DE027C3413400E1FB5F /* AudioMovieExporterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMovieExporterError.swift; sourceTree = "<group>"; };
+		2B633DE527C3891C00E1FB5F /* EUXLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EUXLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +70,7 @@
 		2B633DAF27C2A16200E1FB5F /* AudioExportExample */ = {
 			isa = PBXGroup;
 			children = (
-				2B633DD027C2A79F00E1FB5F /* AudioMovieExporter */,
+				2B633DE827C3892100E1FB5F /* Libraries */,
 				2B633DCC27C2A3EC00E1FB5F /* sample.m4a */,
 				2B633DB027C2A16200E1FB5F /* AppDelegate.swift */,
 				2B633DB227C2A16200E1FB5F /* SceneDelegate.swift */,
@@ -99,6 +101,23 @@
 				2B633DD127C2A7AE00E1FB5F /* AudioMovieExporter.swift */,
 			);
 			path = AudioMovieExporter;
+			sourceTree = "<group>";
+		};
+		2B633DE827C3892100E1FB5F /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				2B633DD027C2A79F00E1FB5F /* AudioMovieExporter */,
+				2B633DE927C3892700E1FB5F /* Easy UX */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		2B633DE927C3892700E1FB5F /* Easy UX */ = {
+			isa = PBXGroup;
+			children = (
+				2B633DE527C3891C00E1FB5F /* EUXLoader.swift */,
+			);
+			path = "Easy UX";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +195,7 @@
 				2B633DB527C2A16200E1FB5F /* ViewController.swift in Sources */,
 				2B633DB127C2A16200E1FB5F /* AppDelegate.swift in Sources */,
 				2B633DE127C3413400E1FB5F /* AudioMovieExporterError.swift in Sources */,
+				2B633DE627C3891C00E1FB5F /* EUXLoader.swift in Sources */,
 				2B633DD927C33FCD00E1FB5F /* AudioMovieExporterDelegate.swift in Sources */,
 				2B633DD527C33BAE00E1FB5F /* AudioMovieConfiguration.swift in Sources */,
 				2B633DD227C2A7AE00E1FB5F /* AudioMovieExporter.swift in Sources */,
