@@ -1,4 +1,4 @@
-# AudioMovieExporter
+# AudioMovieExporter for iOS (Swift)
 A lightweight Swift library that helps you coverts audio from your iOS apps into movie files which can then be saved to the Photos app, shared on social media or played in your apps.
 
 The motivation for this small project was [this StackOverflow question](https://stackoverflow.com/a/71187603/1619193) which also has an great alternative solution.
