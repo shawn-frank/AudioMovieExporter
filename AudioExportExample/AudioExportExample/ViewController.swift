@@ -48,6 +48,37 @@ class ViewController: UIViewController
         }
     }
     
+    private func presentColorOptions()
+    {
+        let ac = UIAlertController(title: "Choose video background color", message: nil, preferredStyle: .alert)
+        
+        let redAction = UIAlertAction(title: "Red",
+                                      style: .default)
+        { [weak self] _ in
+            
+        }
+        
+        let blueAction = UIAlertAction(title: "Blue",
+                                      style: .default)
+        { [weak self] _ in
+            
+        }
+        
+        let yellowAction = UIAlertAction(title: "Yellow",
+                                      style: .default)
+        { [weak self] _ in
+            
+        }
+        
+        ac.addAction(redAction)
+        ac.addAction(blueAction)
+        ac.addAction(yellowAction)
+        
+        self.present(ac,
+                     animated: true,
+                     completion: nil)
+    }
+    
     private func presentSaveOptions()
     {
         let ac = UIAlertController(title: "What next?", message: nil, preferredStyle: .alert)
@@ -97,7 +128,7 @@ class ViewController: UIViewController
     @objc
     private func didTapEnhancedExportButton()
     {
-        print("enh")
+        presentColorOptions()
     }
 }
 
