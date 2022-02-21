@@ -15,8 +15,8 @@ class ViewController: UIViewController
     private var videoOrientationSegmentControl: UISegmentedControl!
     private var videoBGColorSegmentControl: UISegmentedControl!
     private let exportAudioButton = UIButton(type: .system)
-    private let colors: [UIColor] = [.red, .blue, .purple]
-    private var segmentLabelColorQueue: [UIColor] = [.red, .blue, .purple]
+    private let colors: [UIColor] = [.black, .red, .blue, .purple]
+    private var segmentLabelColorQueue: [UIColor] = [.black, .red, .blue, .purple]
     private var isLayoutConfigured = false
     
     var audioMovieExporter = AudioMovieExporter()
@@ -154,6 +154,13 @@ class ViewController: UIViewController
     @objc
     private func didUpdateVideoBGColor(_ segmentControl: UISegmentedControl)
     {
+        if segmentControl.selectedSegmentIndex == 0
+        {
+            // No need to set bg color for black videos
+            exporterConfiguration.backgroundColor = nil
+            return
+        }
+        
         exporterConfiguration.backgroundColor
             = colors[segmentControl.selectedSegmentIndex].cgColor
     }
@@ -274,7 +281,7 @@ extension ViewController
     
     private func layoutVideoBGColorSegment()
     {
-        videoBGColorSegmentControl = UISegmentedControl(items: ["Red", "Blue", "Purple"])
+        videoBGColorSegmentControl = UISegmentedControl(items: ["Black", "Red", "Blue", "Purple"])
         videoBGColorSegmentControl.translatesAutoresizingMaskIntoConstraints = false
         videoBGColorSegmentControl.isHidden = true
         videoBGColorSegmentControl.addTarget(self,

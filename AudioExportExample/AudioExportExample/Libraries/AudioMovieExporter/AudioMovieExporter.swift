@@ -15,7 +15,7 @@ struct AudioMovieExporter
     
     init() { }
     
-    // MARK: INTENTS
+    // MARK: FACTORY
     func generateMovie(with audioURL: URL)
     {
         delegate?.audioMovieExporterDidStart(self)
@@ -30,8 +30,7 @@ struct AudioMovieExporter
             return
         }
         
-        let videoComposition = createVideoComposition(with: videoCompositionTrack,
-                                                      for: CMTime())
+        let videoComposition = createVideoComposition(with: videoCompositionTrack)
         
         if let exporter = configureAVAssetExportSession(with: composition,
                                                         videoComposition: videoComposition)
@@ -62,8 +61,6 @@ struct AudioMovieExporter
     {
         let audioAsset: AVURLAsset = AVURLAsset(url: audioURL)
         
-        print(audioAsset.duration)
-        
         let trackTimeRange = CMTimeRange(start: .zero,
                                          duration: audioAsset.duration)
         
@@ -77,7 +74,7 @@ struct AudioMovieExporter
         
         // Insert a new video track to the AVMutableComposition
         guard let audioTrack = composition.addMutableTrack(withMediaType: .audio,
-                                                                      preferredTrackID: CMPersistentTrackID())
+                                                           preferredTrackID: CMPersistentTrackID())
         else
         {
             manageError(nil, withMessage: "Error creating new audio track")
@@ -87,16 +84,12 @@ struct AudioMovieExporter
         do {
             // Inset the contents of the audio source into the new audio track
             try audioTrack.insertTimeRange(trackTimeRange,
-                                                      of: sourceAudioTrack,
-                                                      at: .zero)
+                                           of: sourceAudioTrack,
+                                           at: .zero)
         }
         catch {
             manageError(error, withMessage: "Error initializing video time range")
         }
-        
-        print(sourceAudioTrack.timeRange.duration)
-        print(audioTrack.timeRange.duration)
-        print(composition.duration)
         
         return audioTrack
     }
@@ -121,7 +114,7 @@ struct AudioMovieExporter
         
         // Insert a new video track to the AVMutableComposition
         guard let videoTrack = composition.addMutableTrack(withMediaType: .video,
-                                                                      preferredTrackID: kCMPersistentTrackID_Invalid)
+                                                           preferredTrackID: kCMPersistentTrackID_Invalid)
         else
         {
             manageError(nil, withMessage: "Error creating new video track")
@@ -135,22 +128,19 @@ struct AudioMovieExporter
             
             // Inset the contents of the video source into the new audio track
             try videoTrack.insertTimeRange(trackTimeRange,
-                                                      of: sourceVideoTrack,
-                                                      at: .zero)
+                                           of: sourceVideoTrack,
+                                           at: .zero)
             
         }
         catch {
             manageError(error, withMessage: "Error initializing video time range")
         }
         
-        print(videoTrack.timeRange.duration)
-        
         return videoTrack
     }
     
     // Configure the video properties like resolution and fps
-    private func createVideoComposition(with videoCompositionTrack: AVMutableCompositionTrack,
-                                        for duration: CMTime) -> AVMutableVideoComposition
+    private func createVideoComposition(with videoCompositionTrack: AVMutableCompositionTrack) -> AVMutableVideoComposition
     {
         let videoComposition = AVMutableVideoComposition()
         
